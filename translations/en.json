@@ -1,0 +1,8 @@
+{
+  "setting.refresh_interval.label": "Refresh Interval (s)",
+  "setting.refresh_interval.desc": "How often process data is sampled and refreshed (seconds)",
+  "setting.color.label": "Text Color",
+  "setting.color.desc": "Color for the widget text (CPU/RAM percentages)",
+  "setting.icon_color.label": "Icon Color",
+  "setting.icon_color.desc": "Color for the widget icons; falls back to Text Color when unset"
+}

@@ -1,0 +1,48 @@
+id = "zerone/system-monitor"
+name = "System Monitor"
+version = "1.0.0"
+plugin_api = 12
+author = "zerone"
+license = "MIT"
+description = "CPU and memory bar widget with a per-process panel (CPU, memory, network, disk)."
+icon = "cpu"
+tags = ["system", "monitor", "processes"]
+
+[[setting]]
+key = "refresh_interval"
+label_key = "setting.refresh_interval.label"
+description_key = "setting.refresh_interval.desc"
+type = "int"
+default = 2
+min = 1
+max = 60
+
+[[widget]]
+id = "sysmon"
+entry = "widget.luau"
+
+  [[widget.setting]]
+  key = "color"
+  type = "color"
+  label_key = "setting.color.label"
+  description_key = "setting.color.desc"
+  default = ""
+
+  [[widget.setting]]
+  key = "icon_color"
+  type = "color"
+  label_key = "setting.icon_color.label"
+  description_key = "setting.icon_color.desc"
+  default = ""
+
+[[service]]
+id = "sampler"
+entry = "service.luau"
+
+[[panel]]
+id = "processes"
+entry = "panel.luau"
+width = 700
+height = 660
+placement = "attached"
+position = "auto"
