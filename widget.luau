@@ -24,6 +24,16 @@ end
 local labelColor = pickColor(textColor, nil)
 local glyphColor = pickColor(iconColor, pickColor(textColor, nil))
 
+-- Metric value coloring for the bar labels: at rest use the configured
+-- color (or theme default), but force the theme's red (error) whenever a
+-- metric exceeds 85%.
+local function valueColor(v)
+	if v > 85 then
+		return "error"
+	end
+	return labelColor
+end
+
 function update()
 	local stats = noctalia.systemStats()
 	local container = barWidget.isVertical() and ui.column or ui.row
@@ -40,9 +50,9 @@ function update()
 
 	barWidget.render(container({ gap = 8, align = "center" }, {
 		ui.glyph({ name = "cpu", size = 14, color = glyphColor }),
-		ui.label({ text = string.format("%.0f%%", stats.cpu.usagePercent), fontWeight = "bold", color = labelColor }),
+		ui.label({ text = string.format("%.0f%%", stats.cpu.usagePercent), fontWeight = "bold", color = valueColor(stats.cpu.usagePercent) }),
 		ui.glyph({ name = "server", size = 14, color = glyphColor }),
-		ui.label({ text = string.format("%.0f%%", stats.ram.usagePercent), fontWeight = "bold", color = labelColor }),
+		ui.label({ text = string.format("%.0f%%", stats.ram.usagePercent), fontWeight = "bold", color = valueColor(stats.ram.usagePercent) }),
 	}))
 end
 
