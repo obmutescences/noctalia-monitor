@@ -119,22 +119,22 @@ local function render()
 	-- Column headers — metric column(s) vary by tab; all caps, secondary color
 	local headerCells = {
 		ui.label({ text = "NAME", flexGrow = 1, fontWeight = "bold", color = "secondary" }),
-		ui.label({ text = "PID", width = 64, fontWeight = "bold", color = "secondary", textAlign = "right" }),
+		ui.label({ text = "PID", width = 64, fontWeight = "bold", color = "secondary", textAlign = "end" }),
 	}
 	if currentTab == "net" then
-		table.insert(headerCells, ui.label({ text = "DOWN", width = 100, fontWeight = "bold", color = "secondary", textAlign = "right" }))
-		table.insert(headerCells, ui.label({ text = "UP",   width = 100, fontWeight = "bold", color = "secondary", textAlign = "right" }))
+		table.insert(headerCells, ui.label({ text = "DOWN", width = 100, fontWeight = "bold", color = "secondary", textAlign = "end" }))
+		table.insert(headerCells, ui.label({ text = "UP",   width = 100, fontWeight = "bold", color = "secondary", textAlign = "end" }))
 	elseif currentTab == "disk" then
-		table.insert(headerCells, ui.label({ text = "WRITE", width = 100, fontWeight = "bold", color = "secondary", textAlign = "right" }))
+		table.insert(headerCells, ui.label({ text = "WRITE", width = 100, fontWeight = "bold", color = "secondary", textAlign = "end" }))
 	elseif currentTab == "mem" then
 		-- Two header cells to align with the two data cells (progress + label)
 		table.insert(headerCells, ui.label({ text = "",       width = 80, color = "secondary" }))
-		table.insert(headerCells, ui.label({ text = "MEMORY", width = 100, fontWeight = "bold", color = "secondary", textAlign = "right" }))
+		table.insert(headerCells, ui.label({ text = "MEMORY", width = 100, fontWeight = "bold", color = "secondary", textAlign = "end" }))
 	elseif currentTab == "gpu" then
 		table.insert(headerCells, ui.label({ text = "",      width = 80, color = "secondary" }))
-		table.insert(headerCells, ui.label({ text = "GPU",   width = 140, fontWeight = "bold", color = "secondary", textAlign = "right" }))
+		table.insert(headerCells, ui.label({ text = "GPU",   width = 140, fontWeight = "bold", color = "secondary", textAlign = "end" }))
 	else -- cpu
-		table.insert(headerCells, ui.label({ text = "CPU", width = 172, fontWeight = "bold", color = "secondary", textAlign = "right" }))
+		table.insert(headerCells, ui.label({ text = "CPU", width = 172, fontWeight = "bold", color = "secondary", textAlign = "end" }))
 	end
 	table.insert(children, ui.row({ gap = 12, paddingV = 6, paddingH = 8, fill = "surface_variant/0.3" }, headerCells))
 
@@ -145,13 +145,13 @@ local function render()
 			local rowFill = i % 2 == 0 and "surface_variant/0.1" or nil
 			local cells = {
 				ui.label({ text = row.name, flexGrow = 1, maxLines = 1 }),
-				ui.label({ text = tostring(row.pid), width = 64, color = "on_surface_variant", textAlign = "right" }),
+				ui.label({ text = tostring(row.pid), width = 64, color = "on_surface_variant", textAlign = "end" }),
 			}
 			if currentTab == "net" then
-				table.insert(cells, ui.label({ text = humanBytesPerSec(row.down), width = 100, color = metricColor(row.down), textAlign = "right" }))
-				table.insert(cells, ui.label({ text = humanBytesPerSec(row.up),   width = 100, color = metricColor(row.up), textAlign = "right" }))
+				table.insert(cells, ui.label({ text = humanBytesPerSec(row.down), width = 100, color = metricColor(row.down), textAlign = "end" }))
+				table.insert(cells, ui.label({ text = humanBytesPerSec(row.up),   width = 100, color = metricColor(row.up), textAlign = "end" }))
 			elseif currentTab == "disk" then
-				table.insert(cells, ui.label({ text = humanBytesPerSec(row.write), width = 100, color = metricColor(row.write), textAlign = "right" }))
+				table.insert(cells, ui.label({ text = humanBytesPerSec(row.write), width = 100, color = metricColor(row.write), textAlign = "end" }))
 			elseif currentTab == "mem" then
 				local val = row.mem
 				local col = metricColor(val)
@@ -161,7 +161,7 @@ local function render()
 					text = string.format("%s · %.0f%%", humanMemMb(mb), val),
 					width = 100,
 					color = col,
-					textAlign = "right",
+					textAlign = "end",
 				}))
 			elseif currentTab == "gpu" then
 				local gfx = row.gpu or 0
@@ -172,13 +172,13 @@ local function render()
 					text = gfx > 0 and string.format("%s · %.0f%%", humanMemMb(mb), gfx) or humanMemMb(mb),
 					width = 140,
 					color = col,
-					textAlign = "right",
+					textAlign = "end",
 				}))
 			else -- cpu
 				local val = row.cpu
 				local col = metricColor(val)
 				table.insert(cells, ui.progress({ progress = math.clamp(val / 100, 0, 1), width = 112, height = 6, fill = "primary", track = "surface_variant" }))
-				table.insert(cells, ui.label({ text = string.format("%.0f%%", val), width = 48, color = col, textAlign = "right" }))
+				table.insert(cells, ui.label({ text = string.format("%.0f%%", val), width = 48, color = col, textAlign = "end" }))
 			end
 			table.insert(rowWidgets, ui.row({
 				key = tostring(row.pid),
